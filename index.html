@@ -7,14 +7,12 @@
 
 <style>
 
-/* =========================
-RESET
-========================= */
+/* RESET */
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family: system-ui, sans-serif;
+font-family:system-ui,sans-serif;
 }
 
 body{
@@ -24,9 +22,7 @@ height:100vh;
 overflow:hidden;
 }
 
-/* =========================
-OCEANO FUNDO
-========================= */
+/* OCEANO FUNDO */
 .ocean{
 position:fixed;
 inset:0;
@@ -34,7 +30,6 @@ overflow:hidden;
 z-index:0;
 }
 
-/* gradiente profundo */
 .ocean::before{
 content:"";
 position:absolute;
@@ -44,9 +39,7 @@ radial-gradient(circle at 50% -20%, rgba(0,180,255,.25), transparent 60%),
 linear-gradient(to bottom, #021026, #010409 80%);
 }
 
-/* =========================
-RAIOS DE SOL
-========================= */
+/* RAIOS DE SOL */
 .light{
 position:absolute;
 top:-200px;
@@ -57,7 +50,7 @@ background:linear-gradient(to bottom, rgba(255,255,255,.25), transparent);
 filter:blur(80px);
 transform:translateX(-50%);
 opacity:.4;
-animation: lightMove 8s ease-in-out infinite alternate;
+animation:lightMove 8s ease-in-out infinite alternate;
 }
 
 @keyframes lightMove{
@@ -65,9 +58,7 @@ from{ transform:translateX(-50%) scaleX(1); }
 to{ transform:translateX(-48%) scaleX(1.2); }
 }
 
-/* =========================
-PARTICULAS NA AGUA
-========================= */
+/* PARTICULAS */
 .particle{
 position:absolute;
 width:3px;
@@ -75,37 +66,59 @@ height:3px;
 background:white;
 opacity:.3;
 border-radius:50%;
-animation: floatUp linear infinite;
+animation:floatUp linear infinite;
 }
 
 @keyframes floatUp{
-from{
-transform:translateY(100vh);
-}
-to{
-transform:translateY(-10vh);
-}
+from{ transform:translateY(100vh); }
+to{ transform:translateY(-10vh); }
 }
 
-/* =========================
-AGUAS VIVAS
-========================= */
-.jelly{
-position:absolute;
-width:120px;
-opacity:.5;
-animation: jellyFloat 18s ease-in-out infinite;
+/* GOTAS VIDRO */
+.drops{
+position:fixed;
+inset:0;
+pointer-events:none;
+background-image:url("https://i.imgur.com/9Q9Z1Zm.png");
+background-size:cover;
+opacity:.08;
+mix-blend-mode:screen;
+z-index:2;
 }
 
-@keyframes jellyFloat{
+/* LOGO */
+.logo{
+width:180px;
+margin-bottom:20px;
+border-radius:50%;
+object-fit:cover;
+box-shadow:0 0 40px rgba(0,180,255,.4);
+animation:logoFloat 6s ease-in-out infinite;
+}
+
+@keyframes logoFloat{
 0%{ transform:translateY(0); }
-50%{ transform:translateY(-80px); }
+50%{ transform:translateY(-12px); }
 100%{ transform:translateY(0); }
 }
 
-/* =========================
-PEIXES CAMADAS
-========================= */
+/* AGUA VIVA */
+.jelly{
+position:absolute;
+width:120px;
+opacity:.6;
+animation:jellyMove 20s ease-in-out infinite;
+}
+
+@keyframes jellyMove{
+0%{ transform:translateY(0) translateX(0); }
+25%{ transform:translateY(-60px) translateX(20px); }
+50%{ transform:translateY(-120px) translateX(-10px); }
+75%{ transform:translateY(-60px) translateX(25px); }
+100%{ transform:translateY(0) translateX(0); }
+}
+
+/* PEIXES */
 .fish{
 position:absolute;
 pointer-events:none;
@@ -116,19 +129,19 @@ top:25%;
 width:120px;
 opacity:.5;
 filter:blur(2px);
-animation: swimSlow 70s linear infinite;
+animation:swimSlow 70s linear infinite;
 }
 
 .fish2{
 top:45%;
 width:180px;
-animation: swimMid 35s linear infinite;
+animation:swimMid 35s linear infinite;
 }
 
 .fish3{
 top:65%;
 width:260px;
-animation: swimFast 18s linear infinite;
+animation:swimFast 18s linear infinite;
 }
 
 @keyframes swimSlow{
@@ -147,23 +160,7 @@ from{ transform:translateX(-40vw) scale(1.2); }
 to{ transform:translateX(120vw) scale(1.2); }
 }
 
-/* =========================
-GOTAS VIDRO
-========================= */
-.drops{
-position:fixed;
-inset:0;
-pointer-events:none;
-background-image:url("https://i.imgur.com/9Q9Z1Zm.png");
-background-size:cover;
-opacity:.08;
-mix-blend-mode:screen;
-z-index:2;
-}
-
-/* =========================
-CONTEUDO CENTRAL
-========================= */
+/* CONTEUDO CENTRAL */
 .container{
 position:relative;
 z-index:3;
@@ -176,20 +173,12 @@ text-align:center;
 padding:20px;
 }
 
-/* logo */
-.logo{
-width:180px;
-margin-bottom:20px;
-}
-
-/* titulo */
 h1{
 font-size:42px;
 font-weight:700;
 margin-bottom:10px;
 }
 
-/* descrição */
 .desc{
 opacity:.8;
 max-width:500px;
@@ -197,7 +186,6 @@ margin-bottom:30px;
 line-height:1.5;
 }
 
-/* links */
 .links{
 display:flex;
 flex-direction:column;
@@ -225,32 +213,22 @@ transform:translateY(-3px);
 
 <body>
 
-<!-- =========================
-OCEANO
-========================= -->
 <div class="ocean">
-
 <div class="light"></div>
 
-<!-- peixes -->
 <img src="fish1.gif" class="fish fish1">
 <img src="fish2.gif" class="fish fish2">
 <img src="fish3.gif" class="fish fish3">
 
-<!-- aguas vivas -->
-<img src="Jellyfish.gif" class="jelly" style="left:15%; top:55%;">
-<img src="Jellyfish.gif" class="jelly" style="left:75%; top:60%; animation-delay:5s;">
-
+<img src="Jellyfish.gif" class="jelly" style="left:15%; top:60%;">
+<img src="Jellyfish.gif" class="jelly" style="left:75%; top:65%; animation-delay:6s;">
 </div>
 
 <div class="drops"></div>
 
-<!-- =========================
-CONTEUDO
-========================= -->
 <div class="container">
 
-<img class="logo" src="logo.gif">
+<img src="logo.gif" class="logo">
 
 <h1>Gleam Gifs</h1>
 
@@ -262,22 +240,16 @@ Personalização de perfil, amizades, sorteios, eventos e muito mais 🩵
 <div class="links">
 <a href="https://discord.com/channels/1424587377514516525/1428085283043414159/1440940934912016536">Entrar no Discord</a>
 <a href="https://tiktok.com/@gleamgifs">TikTok</a>
-<a href="https://instagram.com/@gleamgifss">Instagram</a>
-<a href="https://pinterest.com/@gleamgifs">Pinterest</a>
+<a href="https://instagram.com/gleamgifss">Instagram</a>
+<a href="https://pinterest.com/gleamgifs">Pinterest</a>
 </div>
 
 </div>
 
-<!-- =========================
-SOM OCEANO
-========================= -->
 <audio autoplay loop>
 <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_ocean.mp3">
 </audio>
 
-<!-- =========================
-GERAR PARTICULAS
-========================= -->
 <script>
 for(let i=0;i<80;i++){
 let p=document.createElement("div")
