@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gleam Gifs</title>
+<meta name="description" content="O melhor servidor de Gifs e icons do Discord">
+<meta name="theme-color" content="#0ea5ff">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins}
+
+body{
+background:#020617;
+color:white;
+height:100vh;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+transition:.4s;
+}
+
+/* modo claro */
+.light{
+background:#f1f5f9;
+color:#020617;
+}
+
+/* loading */
+#loading{
+position:fixed;
+width:100%;
+height:100%;
+background:#020617;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:999;
+font-size:22px;
+}
+
+/* container */
+.container{
+width:90%;
+max-width:420px;
+padding:40px 25px;
+border-radius:30px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(25px);
+text-align:center;
+box-shadow:0 0 50px rgba(0,150,255,.4);
+}
+
+/* fundo oceano */
+body::before{
+content:"";
+position:fixed;
+width:600px;
+height:600px;
+background:radial-gradient(circle,#0ea5ff55,transparent 70%);
+filter:blur(120px);
+animation:float 8s infinite ease-in-out;
+}
+@keyframes float{
+0%,100%{transform:translateY(-40px)}
+50%{transform:translateY(40px)}
+}
+
+/* bolhas */
+.bubble{
+position:fixed;
+bottom:-20px;
+width:10px;
+height:10px;
+background:#60d0ff;
+border-radius:50%;
+opacity:.4;
+animation:rise 8s linear infinite;
+}
+@keyframes rise{
+to{transform:translateY(-110vh)}
+}
+
+/* logo */
+.logo{
+width:120px;
+border-radius:50%;
+box-shadow:0 0 40px #38b6ff;
+margin-bottom:20px;
+}
+
+/* botões */
+.link{
+display:block;
+padding:15px;
+margin:10px 0;
+border-radius:18px;
+text-decoration:none;
+color:white;
+background:linear-gradient(90deg,#0ea5ff,#2563ff,#60d0ff);
+background-size:200%;
+transition:.3s;
+}
+.link:hover{
+transform:translateY(-4px);
+background-position:right;
+}
+
+/* topo */
+.topbar{
+position:absolute;
+top:20px;
+right:20px;
+display:flex;
+gap:10px;
+}
+
+/* botão */
+.btn{
+padding:8px 12px;
+border-radius:10px;
+background:#0ea5ff;
+cursor:pointer;
+font-size:12px;
+}
+
+/* ranking */
+#rank{
+margin-top:10px;
+font-size:12px;
+opacity:.7;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="loading">carregando...</div>
+
+<div class="topbar">
+<div class="btn" onclick="toggleTheme()">tema</div>
+<div class="btn" onclick="copyLink()">copiar link</div>
+</div>
+
+<div class="container">
+
+<img src="logo.png" class="logo">
+
+<h1>Gleam Gifs</h1>
+
+<p>
+🫧 O melhor servidor de Gifs e icons do Discord. Personalização de perfil, amizades, sorteios, eventos e muito mais 🩵
+</p>
+
+<a class="link" onclick="clickSound()" href="https://discord.gg/gleam">Discord</a>
+<a class="link" onclick="clickSound()" href="https://tiktok.com/@gleamgifs">TikTok</a>
+<a class="link" onclick="clickSound()" href="https://instagram.com/gleamgifss">Instagram</a>
+<a class="link" onclick="clickSound()" href="https://pinterest.com/gleamgifs">Pinterest</a>
+
+<div id="rank"></div>
+
+</div>
+
+<audio id="music" src="music.mp3" loop></audio>
+<audio id="click" src="click.mp3"></audio>
+
+<script>
+
+/* loading */
+setTimeout(()=>loading.remove(),1200)
+
+/* bolhas */
+for(let i=0;i<20;i++){
+let b=document.createElement("div")
+b.className="bubble"
+b.style.left=Math.random()*100+"vw"
+b.style.animationDuration=5+Math.random()*5+"s"
+document.body.appendChild(b)
+}
+
+/* modo tema */
+function toggleTheme(){
+document.body.classList.toggle("light")
+}
+
+/* copiar link */
+function copyLink(){
+navigator.clipboard.writeText(location.href)
+alert("link copiado")
+}
+
+/* som clique */
+function clickSound(){
+document.getElementById("click").play()
+}
+
+/* música */
+document.body.onclick=()=>music.play()
+
+/* ranking local */
+let c=localStorage.getItem("clicks")||0
+c++
+localStorage.setItem("clicks",c)
+rank.innerText="visitas totais: "+c
+
+/* animação 3D celular */
+window.addEventListener("deviceorientation",e=>{
+document.querySelector(".container").style.transform=
+`rotateY(${e.gamma/6}deg) rotateX(${e.beta/6}deg)`
+})
+
+</script>
+
+</body>
+</html>
