@@ -12,12 +12,22 @@ height:100vh;
 overflow:hidden;
 }
 
-/* oceano fundo */
+/* câmera submarina */
+.camera{
+animation:cameraMove 12s ease-in-out infinite alternate;
+}
+
+@keyframes cameraMove{
+0%{transform:translate(0,0) scale(1);}
+50%{transform:translate(-10px,-20px) scale(1.02);}
+100%{transform:translate(10px,10px) scale(1);}
+}
+
+/* oceano */
 .ocean{
 position:fixed;
 inset:0;
 overflow:hidden;
-z-index:0;
 }
 
 .ocean::before{
@@ -26,10 +36,10 @@ position:absolute;
 inset:0;
 background:
 radial-gradient(circle at 50% -20%, rgba(0,180,255,.25), transparent 60%),
-linear-gradient(to bottom, #021026, #010409 80%);
+linear-gradient(to bottom,#021026,#010409 80%);
 }
 
-/* raios de luz */
+/* luz solar */
 .light{
 position:absolute;
 top:-200px;
@@ -44,8 +54,8 @@ animation:lightMove 8s ease-in-out infinite alternate;
 }
 
 @keyframes lightMove{
-from{ transform:translateX(-50%) scaleX(1); }
-to{ transform:translateX(-48%) scaleX(1.2); }
+from{transform:translateX(-50%) scaleX(1);}
+to{transform:translateX(-48%) scaleX(1.2);}
 }
 
 /* partículas */
@@ -60,8 +70,8 @@ animation:floatUp linear infinite;
 }
 
 @keyframes floatUp{
-from{ transform:translateY(100vh); }
-to{ transform:translateY(-10vh); }
+from{transform:translateY(100vh);}
+to{transform:translateY(-10vh);}
 }
 
 /* gotas vidro */
@@ -73,23 +83,19 @@ background-image:url("https://i.imgur.com/9Q9Z1Zm.png");
 background-size:cover;
 opacity:.08;
 mix-blend-mode:screen;
-z-index:2;
 }
 
 /* logo */
 .logo{
 width:180px;
-margin-bottom:20px;
 border-radius:50%;
-object-fit:cover;
 box-shadow:0 0 40px rgba(0,180,255,.4);
 animation:logoFloat 6s ease-in-out infinite;
+margin-bottom:20px;
 }
 
 @keyframes logoFloat{
-0%{ transform:translateY(0); }
-50%{ transform:translateY(-12px); }
-100%{ transform:translateY(0); }
+50%{transform:translateY(-12px);}
 }
 
 /* água viva */
@@ -101,56 +107,12 @@ animation:jellyMove 20s ease-in-out infinite;
 }
 
 @keyframes jellyMove{
-0%{ transform:translateY(0) translateX(0); }
-25%{ transform:translateY(-60px) translateX(20px); }
-50%{ transform:translateY(-120px) translateX(-10px); }
-75%{ transform:translateY(-60px) translateX(25px); }
-100%{ transform:translateY(0) translateX(0); }
+0%{transform:translateY(0);}
+50%{transform:translateY(-120px);}
+100%{transform:translateY(0);}
 }
 
-/* peixes */
-.fish{
-position:absolute;
-pointer-events:none;
-}
-
-.fish1{
-top:25%;
-width:120px;
-opacity:.5;
-filter:blur(2px);
-animation:swimSlow 70s linear infinite;
-}
-
-.fish2{
-top:45%;
-width:180px;
-animation:swimMid 35s linear infinite;
-}
-
-.fish3{
-top:65%;
-width:260px;
-animation:swimFast 18s linear infinite;
-}
-
-@keyframes swimSlow{
-from{ transform:translateX(-20vw); }
-to{ transform:translateX(120vw); }
-}
-
-@keyframes swimMid{
-0%{ transform:translateX(-30vw) translateY(0); }
-50%{ transform:translateX(50vw) translateY(-20px); }
-100%{ transform:translateX(120vw) translateY(0); }
-}
-
-@keyframes swimFast{
-from{ transform:translateX(-40vw) scale(1.2); }
-to{ transform:translateX(120vw) scale(1.2); }
-}
-
-/* conteúdo */
+/* container central */
 .container{
 position:relative;
 z-index:3;
@@ -160,22 +122,15 @@ flex-direction:column;
 align-items:center;
 justify-content:center;
 text-align:center;
-padding:20px;
-}
-
-h1{
-font-size:42px;
-font-weight:700;
-margin-bottom:10px;
 }
 
 .desc{
 opacity:.8;
 max-width:500px;
-margin-bottom:30px;
-line-height:1.5;
+margin:20px 0;
 }
 
+/* links */
 .links{
 display:flex;
 flex-direction:column;
@@ -196,4 +151,48 @@ transition:.3s;
 .links a:hover{
 background:rgba(0,180,255,.25);
 transform:translateY(-3px);
+}
+
+/* peixes */
+.fish{
+position:absolute;
+pointer-events:none;
+}
+
+.swim-left{
+animation:swimLeft linear infinite;
+}
+
+.swim-right{
+animation:swimRight linear infinite;
+}
+
+@keyframes swimLeft{
+from{transform:translateX(110vw);}
+to{transform:translateX(-20vw);}
+}
+
+@keyframes swimRight{
+from{transform:translateX(-20vw) scaleX(-1);}
+to{transform:translateX(110vw) scaleX(-1);}
+}
+
+/* bolhas */
+.bubble{
+position:fixed;
+background:rgba(255,255,255,.5);
+border-radius:50%;
+animation:bubbleRise 6s linear forwards;
+pointer-events:none;
+}
+
+@keyframes bubbleRise{
+from{
+transform:translateY(0) scale(.6);
+opacity:.7;
+}
+to{
+transform:translateY(-300px) scale(1.4);
+opacity:0;
+}
 }
