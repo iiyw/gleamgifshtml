@@ -1,177 +1,223 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gleam Gifs</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
 <style>
 
+/* =========================
+RESET
+========================= */
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Poppins;
+font-family: system-ui, sans-serif;
 }
 
 body{
+background:#020617;
+color:white;
 height:100vh;
 overflow:hidden;
-display:flex;
-justify-content:center;
-align-items:center;
-color:white;
-background:#020617;
 }
 
-/* ===== FUNDO OCEANO PROFUNDO ===== */
+/* =========================
+OCEANO FUNDO
+========================= */
+.ocean{
+position:fixed;
+inset:0;
+overflow:hidden;
+z-index:0;
+}
 
-body::before{
+/* gradiente profundo */
+.ocean::before{
 content:"";
-position:fixed;
-width:100%;
-height:100%;
+position:absolute;
+inset:0;
 background:
-linear-gradient(180deg,#020617,#031436,#06224a,#041b3a);
-z-index:-5;
+radial-gradient(circle at 50% -20%, rgba(0,180,255,.25), transparent 60%),
+linear-gradient(to bottom, #021026, #010409 80%);
 }
 
-/* ===== RAIOS DE SOL ===== */
-
-.sun{
-position:fixed;
-width:100%;
-height:100%;
-background:
-repeating-linear-gradient(
-to bottom,
-rgba(255,255,255,0.05),
-rgba(255,255,255,0.02) 80px,
-transparent 120px
-);
-opacity:.25;
-animation:sunMove 8s linear infinite;
-z-index:-4;
-}
-
-@keyframes sunMove{
-0%{transform:translateY(-40px)}
-100%{transform:translateY(40px)}
-}
-
-/* ===== REFLEXO ÁGUA (CAUSTICS) ===== */
-
-.caustics{
-position:fixed;
-width:100%;
-height:100%;
-background:
-radial-gradient(circle,#7dd3ff22 10%,transparent 40%),
-radial-gradient(circle,#38b6ff22 15%,transparent 45%);
-background-size:300px 300px;
-animation:causticMove 12s linear infinite;
-opacity:.35;
-z-index:-3;
-}
-
-@keyframes causticMove{
-from{background-position:0 0,100px 200px}
-to{background-position:300px 300px,400px 500px}
-}
-
-/* ===== GOTAS ESCORRENDO ===== */
-
-.drop{
-position:fixed;
-top:-20px;
-width:2px;
-height:40px;
-background:linear-gradient(transparent,#7dd3ff);
+/* =========================
+RAIOS DE SOL
+========================= */
+.light{
+position:absolute;
+top:-200px;
+left:50%;
+width:600px;
+height:900px;
+background:linear-gradient(to bottom, rgba(255,255,255,.25), transparent);
+filter:blur(80px);
+transform:translateX(-50%);
 opacity:.4;
-animation:dropFall linear infinite;
+animation: lightMove 8s ease-in-out infinite alternate;
 }
 
-@keyframes dropFall{
-to{transform:translateY(120vh)}
+@keyframes lightMove{
+from{ transform:translateX(-50%) scaleX(1); }
+to{ transform:translateX(-48%) scaleX(1.2); }
 }
 
-/* ===== BOLHAS ===== */
+/* =========================
+PARTICULAS NA AGUA
+========================= */
+.particle{
+position:absolute;
+width:3px;
+height:3px;
+background:white;
+opacity:.3;
+border-radius:50%;
+animation: floatUp linear infinite;
+}
 
-.bubble{
+@keyframes floatUp{
+from{
+transform:translateY(100vh);
+}
+to{
+transform:translateY(-10vh);
+}
+}
+
+/* =========================
+AGUAS VIVAS
+========================= */
+.jelly{
+position:absolute;
+width:120px;
+opacity:.5;
+animation: jellyFloat 18s ease-in-out infinite;
+}
+
+@keyframes jellyFloat{
+0%{ transform:translateY(0); }
+50%{ transform:translateY(-80px); }
+100%{ transform:translateY(0); }
+}
+
+/* =========================
+PEIXES CAMADAS
+========================= */
+.fish{
+position:absolute;
+pointer-events:none;
+}
+
+.fish1{
+top:25%;
+width:120px;
+opacity:.5;
+filter:blur(2px);
+animation: swimSlow 70s linear infinite;
+}
+
+.fish2{
+top:45%;
+width:180px;
+animation: swimMid 35s linear infinite;
+}
+
+.fish3{
+top:65%;
+width:260px;
+animation: swimFast 18s linear infinite;
+}
+
+@keyframes swimSlow{
+from{ transform:translateX(-20vw); }
+to{ transform:translateX(120vw); }
+}
+
+@keyframes swimMid{
+0%{ transform:translateX(-30vw) translateY(0); }
+50%{ transform:translateX(50vw) translateY(-20px); }
+100%{ transform:translateX(120vw) translateY(0); }
+}
+
+@keyframes swimFast{
+from{ transform:translateX(-40vw) scale(1.2); }
+to{ transform:translateX(120vw) scale(1.2); }
+}
+
+/* =========================
+GOTAS VIDRO
+========================= */
+.drops{
 position:fixed;
-bottom:-40px;
-width:10px;
-height:10px;
-background:rgba(125,211,255,.25);
-border-radius:50%;
-box-shadow:0 0 15px #38b6ff;
-animation:rise linear infinite;
+inset:0;
+pointer-events:none;
+background-image:url("https://i.imgur.com/9Q9Z1Zm.png");
+background-size:cover;
+opacity:.08;
+mix-blend-mode:screen;
+z-index:2;
 }
 
-@keyframes rise{
-to{transform:translateY(-120vh) scale(1.5)}
-}
-
-/* ===== CARD ===== */
-
+/* =========================
+CONTEUDO CENTRAL
+========================= */
 .container{
-width:90%;
-max-width:420px;
-padding:40px 25px;
-border-radius:35px;
+position:relative;
+z-index:3;
+height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
 text-align:center;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(35px);
-box-shadow:
-0 0 80px rgba(0,180,255,.5),
-inset 0 0 60px rgba(0,150,255,.25);
+padding:20px;
 }
 
-/* ===== LOGO ===== */
-
+/* logo */
 .logo{
-width:130px;
-border-radius:50%;
+width:180px;
 margin-bottom:20px;
-box-shadow:0 0 80px #38b6ff;
-animation:glow 3s infinite ease-in-out;
 }
 
-@keyframes glow{
-0%,100%{box-shadow:0 0 40px #38b6ff}
-50%{box-shadow:0 0 90px #7dd3ff}
+/* titulo */
+h1{
+font-size:42px;
+font-weight:700;
+margin-bottom:10px;
 }
 
-/* ===== BOTÕES ===== */
+/* descrição */
+.desc{
+opacity:.8;
+max-width:500px;
+margin-bottom:30px;
+line-height:1.5;
+}
 
-.link{
-display:block;
-padding:16px;
-margin:12px 0;
-border-radius:20px;
+/* links */
+.links{
+display:flex;
+flex-direction:column;
+gap:12px;
+width:260px;
+}
+
+.links a{
 text-decoration:none;
 color:white;
-font-weight:500;
-background:linear-gradient(90deg,#0ea5ff,#2563ff,#60d0ff);
-background-size:200%;
-transition:.35s;
-box-shadow:0 5px 30px rgba(0,180,255,.5);
+padding:14px;
+border-radius:12px;
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(10px);
+transition:.3s;
 }
 
-.link:hover{
-transform:translateY(-6px) scale(1.04);
-background-position:right;
-box-shadow:0 15px 60px rgba(0,200,255,1);
-}
-
-canvas{
-position:fixed;
-top:0;
-left:0;
-z-index:-2;
+.links a:hover{
+background:rgba(0,180,255,.25);
+transform:translateY(-3px);
 }
 
 </style>
@@ -179,123 +225,69 @@ z-index:-2;
 
 <body>
 
-<div class="sun"></div>
-<div class="caustics"></div>
-<canvas id="ocean"></canvas>
+<!-- =========================
+OCEANO
+========================= -->
+<div class="ocean">
 
-<div class="container">
+<div class="light"></div>
 
-<img src="logo.gif" class="logo">
+<!-- peixes -->
+<img src="fish1.gif" class="fish fish1">
+<img src="fish2.gif" class="fish fish2">
+<img src="fish3.gif" class="fish fish3">
 
-<h1>Gleam Gifs</h1>
-
-<p>
-🫧 O melhor servidor de Gifs e icons do Discord. Personalização de perfil, amizades, sorteios, eventos e muito mais 🩵
-</p>
-
-<a class="link" href="https://discord.com/channels/1424587377514516525/1428085283043414159/1440940934912016536">
-Entrar no Discord
-</a>
-
-<a class="link" href="https://tiktok.com/@gleamgifs">TikTok</a>
-<a class="link" href="https://instagram.com/gleamgifss">Instagram</a>
-<a class="link" href="https://pinterest.com/gleamgifs">Pinterest</a>
+<!-- aguas vivas -->
+<img src="https://media.tenor.com/3FqJ.gif" class="jelly" style="left:15%; top:55%;">
+<img src="https://media.tenor.com/3FqJ.gif" class="jelly" style="left:75%; top:60%; animation-delay:5s;">
 
 </div>
 
-<audio id="oceanSound" src="ocean.mp3" loop></audio>
+<div class="drops"></div>
 
+<!-- =========================
+CONTEUDO
+========================= -->
+<div class="container">
+
+<img class="logo"
+src="https://cdn.discordapp.com/attachments/1451647308688130058/1474799533832536085/LOGO_GLEAM_GIFS5_1.gif">
+
+<h1>Gleam Gifs</h1>
+
+<div class="desc">
+🫧 O melhor servidor de Gifs e icons do Discord.
+Personalização de perfil, amizades, sorteios, eventos e muito mais 🩵
+</div>
+
+<div class="links">
+<a href="https://discord.com/channels/1424587377514516525/1428085283043414159/1440940934912016536">Entrar no Discord</a>
+<a href="https://tiktok.com/@gleamgifs">TikTok</a>
+<a href="https://instagram.com/@gleamgifss">Instagram</a>
+<a href="https://pinterest.com/@gleamgifs">Pinterest</a>
+</div>
+
+</div>
+
+<!-- =========================
+SOM OCEANO
+========================= -->
+<audio autoplay loop>
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_ocean.mp3">
+</audio>
+
+<!-- =========================
+GERAR PARTICULAS
+========================= -->
 <script>
-
-/* ===== SOM OCEANO ===== */
-document.body.onclick=()=>oceanSound.play()
-
-/* ===== BOLHAS ===== */
-for(let i=0;i<40;i++){
-let b=document.createElement("div")
-b.className="bubble"
-b.style.left=Math.random()*100+"vw"
-b.style.animationDuration=6+Math.random()*6+"s"
-document.body.appendChild(b)
+for(let i=0;i<80;i++){
+let p=document.createElement("div")
+p.className="particle"
+p.style.left=Math.random()*100+"vw"
+p.style.animationDuration=20+Math.random()*40+"s"
+p.style.opacity=Math.random()
+document.querySelector(".ocean").appendChild(p)
 }
-
-/* ===== GOTAS ===== */
-for(let i=0;i<20;i++){
-let d=document.createElement("div")
-d.className="drop"
-d.style.left=Math.random()*100+"vw"
-d.style.animationDuration=3+Math.random()*5+"s"
-document.body.appendChild(d)
-}
-
-/* ===== PEIXES + ÁGUAS VIVAS ===== */
-
-const canvas=document.getElementById("ocean")
-const ctx=canvas.getContext("2d")
-
-canvas.width=innerWidth
-canvas.height=innerHeight
-
-let fish=[]
-let jelly=[]
-
-for(let i=0;i<12;i++){
-fish.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-s:2+Math.random()*2,
-v:0.5+Math.random()
-})
-}
-
-for(let i=0;i<5;i++){
-jelly.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:15+Math.random()*10,
-v:0.3+Math.random()*0.5
-})
-}
-
-function draw(){
-
-ctx.clearRect(0,0,canvas.width,canvas.height)
-
-/* peixes */
-fish.forEach(f=>{
-ctx.beginPath()
-ctx.ellipse(f.x,f.y,10*f.s,4*f.s,0,0,Math.PI*2)
-ctx.fillStyle="rgba(125,211,255,0.8)"
-ctx.fill()
-
-f.x+=f.v
-if(f.x>canvas.width) f.x=-50
-})
-
-/* águas vivas */
-jelly.forEach(j=>{
-ctx.beginPath()
-ctx.arc(j.x,j.y,j.r,Math.PI,0)
-ctx.fillStyle="rgba(125,211,255,0.3)"
-ctx.fill()
-
-for(let i=0;i<5;i++){
-ctx.beginPath()
-ctx.moveTo(j.x-10+i*5,j.y)
-ctx.lineTo(j.x-10+i*5,j.y+20+Math.sin(Date.now()/300+i)*10)
-ctx.strokeStyle="rgba(125,211,255,0.5)"
-ctx.stroke()
-}
-
-j.y+=j.v
-if(j.y>canvas.height+40) j.y=-40
-})
-
-requestAnimationFrame(draw)
-}
-
-draw()
-
 </script>
 
 </body>
