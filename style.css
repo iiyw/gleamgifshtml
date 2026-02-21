@@ -2,197 +2,156 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:system-ui,sans-serif;
+font-family:Arial, sans-serif;
 }
 
 body{
-background:#020617;
-color:white;
 height:100vh;
 overflow:hidden;
+background:#021526;
+color:white;
 }
 
-/* câmera submarina */
-.camera{
-animation:cameraMove 12s ease-in-out infinite alternate;
-}
-
-@keyframes cameraMove{
-0%{transform:translate(0,0) scale(1);}
-50%{transform:translate(-10px,-20px) scale(1.02);}
-100%{transform:translate(10px,10px) scale(1);}
-}
-
-/* oceano */
+/* OCEANO CAMERA */
 .ocean{
 position:fixed;
-inset:0;
-overflow:hidden;
+width:120%;
+height:120%;
+background:radial-gradient(circle at center,#043a5b,#010b18);
+animation:camera 20s ease-in-out infinite alternate;
+z-index:-3;
 }
 
-.ocean::before{
-content:"";
-position:absolute;
-inset:0;
-background:
-radial-gradient(circle at 50% -20%, rgba(0,180,255,.25), transparent 60%),
-linear-gradient(to bottom,#021026,#010409 80%);
+@keyframes camera{
+0%{transform:scale(1)}
+100%{transform:scale(1.05)}
 }
 
-/* luz solar */
-.light{
-position:absolute;
-top:-200px;
-left:50%;
-width:600px;
-height:900px;
-background:linear-gradient(to bottom, rgba(255,255,255,.25), transparent);
-filter:blur(80px);
-transform:translateX(-50%);
-opacity:.4;
-animation:lightMove 8s ease-in-out infinite alternate;
-}
-
-@keyframes lightMove{
-from{transform:translateX(-50%) scaleX(1);}
-to{transform:translateX(-48%) scaleX(1.2);}
-}
-
-/* partículas */
-.particle{
-position:absolute;
-width:3px;
-height:3px;
-background:white;
-opacity:.3;
-border-radius:50%;
-animation:floatUp linear infinite;
-}
-
-@keyframes floatUp{
-from{transform:translateY(100vh);}
-to{transform:translateY(-10vh);}
-}
-
-/* gotas vidro */
-.drops{
+/* LUZ */
+.sunlight{
 position:fixed;
-inset:0;
-pointer-events:none;
-background-image:url("https://i.imgur.com/9Q9Z1Zm.png");
-background-size:cover;
-opacity:.08;
-mix-blend-mode:screen;
+width:100%;
+height:100%;
+background:linear-gradient(180deg,
+rgba(255,255,255,0.15),
+transparent 40%);
+animation:lightmove 8s linear infinite;
+z-index:-2;
 }
 
-/* logo */
-.logo{
-width:180px;
+@keyframes lightmove{
+0%{transform:translateY(-20px)}
+100%{transform:translateY(20px)}
+}
+
+/* BOLHAS */
+.bubbles span{
+position:absolute;
+bottom:-50px;
+width:12px;
+height:12px;
+background:white;
 border-radius:50%;
-box-shadow:0 0 40px rgba(0,180,255,.4);
-animation:logoFloat 6s ease-in-out infinite;
-margin-bottom:20px;
+opacity:0.5;
+animation:rise linear infinite;
 }
 
-@keyframes logoFloat{
-50%{transform:translateY(-12px);}
+.bubbles span:nth-child(1){left:10%; animation-duration:10s}
+.bubbles span:nth-child(2){left:20%; animation-duration:8s}
+.bubbles span:nth-child(3){left:30%; animation-duration:12s}
+.bubbles span:nth-child(4){left:40%; animation-duration:9s}
+.bubbles span:nth-child(5){left:60%; animation-duration:11s}
+.bubbles span:nth-child(6){left:70%; animation-duration:7s}
+.bubbles span:nth-child(7){left:80%; animation-duration:10s}
+.bubbles span:nth-child(8){left:90%; animation-duration:9s}
+
+@keyframes rise{
+0%{transform:translateY(0)}
+100%{transform:translateY(-110vh)}
 }
 
-/* água viva */
-.jelly{
+/* PEIXES */
+.fish{
 position:absolute;
 width:120px;
-opacity:.6;
-animation:jellyMove 20s ease-in-out infinite;
+opacity:0.85;
+animation:swim linear infinite;
 }
 
-@keyframes jellyMove{
-0%{transform:translateY(0);}
-50%{transform:translateY(-120px);}
-100%{transform:translateY(0);}
+@keyframes swim{
+0%{transform:translateX(120vw)}
+100%{transform:translateX(-200px)}
 }
 
-/* container central */
-.container{
-position:relative;
-z-index:3;
-height:100vh;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
+/* DISTANCIA */
+.far{width:70px; opacity:0.4}
+.mid{width:110px; opacity:0.7}
+.near{width:150px; opacity:1}
+
+/* VELOCIDADE */
+.slow{animation-duration:45s}
+.fast{animation-duration:18s}
+
+/* AGUA VIVA */
+.jelly{
+position:absolute;
+top:50%;
+width:130px;
+opacity:0.7;
+animation:float 6s ease-in-out infinite;
+}
+
+.delay{
+animation-delay:3s;
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-30px)}
+}
+
+/* CONTEUDO */
+.content{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
 text-align:center;
+background:rgba(0,0,0,0.35);
+padding:40px;
+border-radius:20px;
+backdrop-filter:blur(15px);
 }
 
-.desc{
-opacity:.8;
-max-width:500px;
-margin:20px 0;
+/* LOGO REDONDA */
+.logo{
+width:120px;
+height:120px;
+border-radius:50%;
+object-fit:cover;
+margin-bottom:20px;
+box-shadow:0 0 25px #5adfff;
 }
 
-/* links */
+/* LINKS */
 .links{
+margin-top:20px;
 display:flex;
-flex-direction:column;
-gap:12px;
-width:260px;
+gap:10px;
+justify-content:center;
+flex-wrap:wrap;
 }
 
 .links a{
 text-decoration:none;
 color:white;
-padding:14px;
+background:linear-gradient(45deg,#00c6ff,#0072ff);
+padding:10px 18px;
 border-radius:12px;
-background:rgba(255,255,255,.05);
-backdrop-filter:blur(10px);
-transition:.3s;
+font-weight:bold;
+transition:0.3s;
 }
 
 .links a:hover{
-background:rgba(0,180,255,.25);
-transform:translateY(-3px);
-}
-
-/* peixes */
-.fish{
-position:absolute;
-pointer-events:none;
-}
-
-.swim-left{
-animation:swimLeft linear infinite;
-}
-
-.swim-right{
-animation:swimRight linear infinite;
-}
-
-@keyframes swimLeft{
-from{transform:translateX(110vw);}
-to{transform:translateX(-20vw);}
-}
-
-@keyframes swimRight{
-from{transform:translateX(-20vw) scaleX(-1);}
-to{transform:translateX(110vw) scaleX(-1);}
-}
-
-/* bolhas */
-.bubble{
-position:fixed;
-background:rgba(255,255,255,.5);
-border-radius:50%;
-animation:bubbleRise 6s linear forwards;
-pointer-events:none;
-}
-
-@keyframes bubbleRise{
-from{
-transform:translateY(0) scale(.6);
-opacity:.7;
-}
-to{
-transform:translateY(-300px) scale(1.4);
-opacity:0;
-}
+transform:scale(1.1);
 }
