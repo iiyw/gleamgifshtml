@@ -6,113 +6,141 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Gleam Gifs</title>
-<meta name="description" content="O melhor servidor de Gifs e icons do Discord">
-<meta name="theme-color" content="#0ea5ff">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins;
+}
 
 body{
-background:#020617;
-color:white;
 height:100vh;
 overflow:hidden;
 display:flex;
 justify-content:center;
 align-items:center;
-transition:.4s;
+color:white;
+background:#020617;
+transition:.5s;
 }
 
-/* modo claro */
-.light{
-background:#f1f5f9;
-color:#020617;
-}
+/* ===== OCEANO GRADIENTE ANIMADO ===== */
 
-/* loading */
-#loading{
+body::before{
+content:"";
 position:fixed;
 width:100%;
 height:100%;
-background:#020617;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:999;
-font-size:22px;
+background:
+radial-gradient(circle at 30% 20%, #0ea5ff33, transparent 40%),
+radial-gradient(circle at 70% 80%, #60d0ff22, transparent 40%),
+linear-gradient(180deg,#020617,#031436,#06224a);
+animation:waterMove 12s infinite linear;
+z-index:-2;
 }
 
-/* container */
+@keyframes waterMove{
+0%{transform:scale(1)}
+50%{transform:scale(1.1)}
+100%{transform:scale(1)}
+}
+
+/* ===== PLÂNCTON / PARTÍCULAS ===== */
+
+.particle{
+position:fixed;
+width:3px;
+height:3px;
+background:#7dd3ff;
+border-radius:50%;
+opacity:.5;
+animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+to{transform:translateY(-110vh)}
+}
+
+/* ===== BOLHAS ===== */
+
+.bubble{
+position:fixed;
+bottom:-40px;
+width:12px;
+height:12px;
+background:rgba(125,211,255,.25);
+border-radius:50%;
+box-shadow:0 0 15px #38b6ff;
+animation:rise linear infinite;
+}
+
+@keyframes rise{
+to{transform:translateY(-120vh) scale(1.4)}
+}
+
+/* ===== CONTAINER ===== */
+
 .container{
 width:90%;
 max-width:420px;
 padding:40px 25px;
-border-radius:30px;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(25px);
+border-radius:35px;
 text-align:center;
-box-shadow:0 0 50px rgba(0,150,255,.4);
+
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(35px);
+
+box-shadow:
+0 0 60px rgba(0,180,255,.4),
+inset 0 0 40px rgba(0,150,255,.2);
 }
 
-/* fundo oceano */
-body::before{
-content:"";
-position:fixed;
-width:600px;
-height:600px;
-background:radial-gradient(circle,#0ea5ff55,transparent 70%);
-filter:blur(120px);
-animation:float 8s infinite ease-in-out;
-}
-@keyframes float{
-0%,100%{transform:translateY(-40px)}
-50%{transform:translateY(40px)}
-}
+/* ===== LOGO ===== */
 
-/* bolhas */
-.bubble{
-position:fixed;
-bottom:-20px;
-width:10px;
-height:10px;
-background:#60d0ff;
-border-radius:50%;
-opacity:.4;
-animation:rise 8s linear infinite;
-}
-@keyframes rise{
-to{transform:translateY(-110vh)}
-}
-
-/* logo */
 .logo{
-width:120px;
+width:130px;
 border-radius:50%;
-box-shadow:0 0 40px #38b6ff;
 margin-bottom:20px;
+box-shadow:0 0 60px #38b6ff;
+animation:glow 3s infinite ease-in-out;
 }
 
-/* botões */
+@keyframes glow{
+0%,100%{box-shadow:0 0 40px #38b6ff}
+50%{box-shadow:0 0 90px #7dd3ff}
+}
+
+/* ===== BOTÕES ===== */
+
 .link{
 display:block;
-padding:15px;
-margin:10px 0;
-border-radius:18px;
+padding:16px;
+margin:12px 0;
+border-radius:20px;
 text-decoration:none;
 color:white;
+font-weight:500;
+
 background:linear-gradient(90deg,#0ea5ff,#2563ff,#60d0ff);
 background-size:200%;
-transition:.3s;
-}
-.link:hover{
-transform:translateY(-4px);
-background-position:right;
+transition:.35s;
+
+box-shadow:0 5px 30px rgba(0,180,255,.5);
 }
 
-/* topo */
+.link:hover{
+transform:translateY(-6px) scale(1.04);
+background-position:right;
+box-shadow:0 15px 60px rgba(0,200,255,1);
+}
+
+/* ===== TOPO ===== */
+
 .topbar{
 position:absolute;
 top:20px;
@@ -121,7 +149,6 @@ display:flex;
 gap:10px;
 }
 
-/* botão */
 .btn{
 padding:8px 12px;
 border-radius:10px;
@@ -130,11 +157,29 @@ cursor:pointer;
 font-size:12px;
 }
 
-/* ranking */
-#rank{
-margin-top:10px;
-font-size:12px;
-opacity:.7;
+/* ===== RIPPLE ÁGUA ===== */
+
+.ripple{
+position:absolute;
+border-radius:50%;
+background:rgba(125,211,255,.3);
+transform:scale(0);
+animation:ripple 0.8s linear;
+pointer-events:none;
+}
+
+@keyframes ripple{
+to{
+transform:scale(6);
+opacity:0;
+}
+}
+
+/* ===== MODO CLARO ===== */
+
+.light{
+background:#e0f2ff;
+color:#020617;
 }
 
 </style>
@@ -142,16 +187,14 @@ opacity:.7;
 
 <body>
 
-<div id="loading">carregando...</div>
-
 <div class="topbar">
 <div class="btn" onclick="toggleTheme()">tema</div>
-<div class="btn" onclick="copyLink()">copiar link</div>
+<div class="btn" onclick="copyLink()">copiar</div>
 </div>
 
 <div class="container">
 
-<img src="logo.png" class="logo">
+<img src="https://cdn.discordapp.com/attachments/1451647308688130058/1474799533832536085/LOGO_GLEAM_GIFS5_1.gif" class="logo">
 
 <h1>Gleam Gifs</h1>
 
@@ -159,61 +202,66 @@ opacity:.7;
 🫧 O melhor servidor de Gifs e icons do Discord. Personalização de perfil, amizades, sorteios, eventos e muito mais 🩵
 </p>
 
-<a class="link" onclick="clickSound()" href="https://discord.gg/gleam">Discord</a>
-<a class="link" onclick="clickSound()" href="https://tiktok.com/@gleamgifs">TikTok</a>
-<a class="link" onclick="clickSound()" href="https://instagram.com/gleamgifss">Instagram</a>
-<a class="link" onclick="clickSound()" href="https://pinterest.com/gleamgifs">Pinterest</a>
-
-<div id="rank"></div>
+<a class="link" href="https://discord.gg/gleam">Entrar no Discord</a>
+<a class="link" href="https://tiktok.com/@gleamgifs">TikTok</a>
+<a class="link" href="https://instagram.com/gleamgifss">Instagram</a>
+<a class="link" href="https://pinterest.com/gleamgifs">Pinterest</a>
 
 </div>
 
-<audio id="music" src="music.mp3" loop></audio>
-<audio id="click" src="click.mp3"></audio>
-
 <script>
 
-/* loading */
-setTimeout(()=>loading.remove(),1200)
+/* ===== GERAR BOLHAS ===== */
 
-/* bolhas */
-for(let i=0;i<20;i++){
+for(let i=0;i<35;i++){
 let b=document.createElement("div")
 b.className="bubble"
 b.style.left=Math.random()*100+"vw"
-b.style.animationDuration=5+Math.random()*5+"s"
+b.style.animationDuration=6+Math.random()*6+"s"
 document.body.appendChild(b)
 }
 
-/* modo tema */
+/* ===== PARTÍCULAS ===== */
+
+for(let i=0;i<60;i++){
+let p=document.createElement("div")
+p.className="particle"
+p.style.left=Math.random()*100+"vw"
+p.style.top=Math.random()*100+"vh"
+p.style.animationDuration=20+Math.random()*20+"s"
+document.body.appendChild(p)
+}
+
+/* ===== RIPPLE CLIQUE ===== */
+
+document.addEventListener("click",e=>{
+let r=document.createElement("div")
+r.className="ripple"
+r.style.left=e.clientX+"px"
+r.style.top=e.clientY+"px"
+r.style.width=r.style.height="20px"
+document.body.appendChild(r)
+setTimeout(()=>r.remove(),800)
+})
+
+/* ===== TEMA ===== */
+
 function toggleTheme(){
 document.body.classList.toggle("light")
 }
 
-/* copiar link */
+/* ===== COPIAR LINK ===== */
+
 function copyLink(){
 navigator.clipboard.writeText(location.href)
 alert("link copiado")
 }
 
-/* som clique */
-function clickSound(){
-document.getElementById("click").play()
-}
+/* ===== MOVIMENTO 3D CELULAR ===== */
 
-/* música */
-document.body.onclick=()=>music.play()
-
-/* ranking local */
-let c=localStorage.getItem("clicks")||0
-c++
-localStorage.setItem("clicks",c)
-rank.innerText="visitas totais: "+c
-
-/* animação 3D celular */
 window.addEventListener("deviceorientation",e=>{
 document.querySelector(".container").style.transform=
-`rotateY(${e.gamma/6}deg) rotateX(${e.beta/6}deg)`
+`rotateY(${e.gamma/8}deg) rotateX(${e.beta/8}deg)`
 })
 
 </script>
