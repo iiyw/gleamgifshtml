@@ -4,27 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gleam Gifs</title>
-
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+<div class="camera">
+
 <div class="ocean">
+
 <div class="light"></div>
 
-<img src="fish1.GIF" class="fish fish1">
-<img src="fish2.GIF" class="fish fish2">
-<img src="fish3.GIF" class="fish fish3">
+<!-- peixes automáticos -->
+<div class="fish-layer" id="fishLayer"></div>
 
-<img src="Jellyfish.gif" class="jelly" style="left:15%; top:60%;">
-<img src="Jellyfish.gif" class="jelly" style="left:75%; top:65%; animation-delay:6s;">
+<!-- águas vivas -->
+<img src="Jellyfish.gif" class="jelly" style="left:10%; top:60%;">
+<img src="Jellyfish.gif" class="jelly" style="left:80%; top:70%; animation-delay:6s;">
+
 </div>
 
 <div class="drops"></div>
 
 <div class="container">
-
 <img src="logo.gif" class="logo">
 
 <h1>Gleam Gifs</h1>
@@ -40,22 +42,89 @@ Personalização de perfil, amizades, sorteios, eventos e muito mais 🩵
 <a href="https://instagram.com/gleamgifss">Instagram</a>
 <a href="https://pinterest.com/gleamgifs">Pinterest</a>
 </div>
+</div>
 
 </div>
 
+<!-- som oceano -->
 <audio autoplay loop>
 <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_ocean.mp3">
 </audio>
 
 <script>
+
+/* ================================
+GERAR PEIXES
+================================ */
+const fishImages=["fish1.GIF","fish2.GIF","fish3.GIF"]
+const layer=document.getElementById("fishLayer")
+const TOTAL=40
+
+for(let i=0;i<TOTAL;i++){
+
+const fish=document.createElement("img")
+fish.src=fishImages[Math.floor(Math.random()*fishImages.length)]
+fish.classList.add("fish")
+
+fish.style.top=Math.random()*100+"vh"
+
+const size=80+Math.random()*160
+fish.style.width=size+"px"
+
+fish.style.opacity=0.4+Math.random()*0.6
+fish.style.filter=`blur(${Math.random()*2}px)`
+
+const duration=20+Math.random()*60
+fish.style.animationDuration=duration+"s"
+
+if(Math.random()>0.5){
+fish.classList.add("swim-left")
+}else{
+fish.classList.add("swim-right")
+}
+
+layer.appendChild(fish)
+
+/* bolhas do peixe */
+setInterval(()=>{
+createBubble(fish)
+},1500+Math.random()*2000)
+
+}
+
+/* ================================
+CRIAR BOLHAS
+================================ */
+function createBubble(fish){
+
+const bubble=document.createElement("div")
+bubble.className="bubble"
+
+const rect=fish.getBoundingClientRect()
+
+bubble.style.left=rect.left+"px"
+bubble.style.top=rect.top+"px"
+
+bubble.style.width=5+Math.random()*10+"px"
+bubble.style.height=bubble.style.width
+
+document.body.appendChild(bubble)
+
+setTimeout(()=>bubble.remove(),6000)
+}
+
+/* ================================
+PARTICULAS OCEANO
+================================ */
 for(let i=0;i<80;i++){
-let p=document.createElement("div")
+const p=document.createElement("div")
 p.className="particle"
 p.style.left=Math.random()*100+"vw"
 p.style.animationDuration=20+Math.random()*40+"s"
 p.style.opacity=Math.random()
 document.querySelector(".ocean").appendChild(p)
 }
+
 </script>
 
 </body>
