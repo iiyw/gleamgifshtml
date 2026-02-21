@@ -4,7 +4,6 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Gleam Gifs</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -26,10 +25,9 @@ justify-content:center;
 align-items:center;
 color:white;
 background:#020617;
-transition:.5s;
 }
 
-/* ===== OCEANO GRADIENTE ANIMADO ===== */
+/* ===== FUNDO OCEANO PROFUNDO ===== */
 
 body::before{
 content:"";
@@ -37,33 +35,67 @@ position:fixed;
 width:100%;
 height:100%;
 background:
-radial-gradient(circle at 30% 20%, #0ea5ff33, transparent 40%),
-radial-gradient(circle at 70% 80%, #60d0ff22, transparent 40%),
-linear-gradient(180deg,#020617,#031436,#06224a);
-animation:waterMove 12s infinite linear;
-z-index:-2;
+linear-gradient(180deg,#020617,#031436,#06224a,#041b3a);
+z-index:-5;
 }
 
-@keyframes waterMove{
-0%{transform:scale(1)}
-50%{transform:scale(1.1)}
-100%{transform:scale(1)}
-}
+/* ===== RAIOS DE SOL ===== */
 
-/* ===== PLÂNCTON / PARTÍCULAS ===== */
-
-.particle{
+.sun{
 position:fixed;
-width:3px;
-height:3px;
-background:#7dd3ff;
-border-radius:50%;
-opacity:.5;
-animation:floatUp linear infinite;
+width:100%;
+height:100%;
+background:
+repeating-linear-gradient(
+to bottom,
+rgba(255,255,255,0.05),
+rgba(255,255,255,0.02) 80px,
+transparent 120px
+);
+opacity:.25;
+animation:sunMove 8s linear infinite;
+z-index:-4;
 }
 
-@keyframes floatUp{
-to{transform:translateY(-110vh)}
+@keyframes sunMove{
+0%{transform:translateY(-40px)}
+100%{transform:translateY(40px)}
+}
+
+/* ===== REFLEXO ÁGUA (CAUSTICS) ===== */
+
+.caustics{
+position:fixed;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle,#7dd3ff22 10%,transparent 40%),
+radial-gradient(circle,#38b6ff22 15%,transparent 45%);
+background-size:300px 300px;
+animation:causticMove 12s linear infinite;
+opacity:.35;
+z-index:-3;
+}
+
+@keyframes causticMove{
+from{background-position:0 0,100px 200px}
+to{background-position:300px 300px,400px 500px}
+}
+
+/* ===== GOTAS ESCORRENDO ===== */
+
+.drop{
+position:fixed;
+top:-20px;
+width:2px;
+height:40px;
+background:linear-gradient(transparent,#7dd3ff);
+opacity:.4;
+animation:dropFall linear infinite;
+}
+
+@keyframes dropFall{
+to{transform:translateY(120vh)}
 }
 
 /* ===== BOLHAS ===== */
@@ -71,8 +103,8 @@ to{transform:translateY(-110vh)}
 .bubble{
 position:fixed;
 bottom:-40px;
-width:12px;
-height:12px;
+width:10px;
+height:10px;
 background:rgba(125,211,255,.25);
 border-radius:50%;
 box-shadow:0 0 15px #38b6ff;
@@ -80,10 +112,10 @@ animation:rise linear infinite;
 }
 
 @keyframes rise{
-to{transform:translateY(-120vh) scale(1.4)}
+to{transform:translateY(-120vh) scale(1.5)}
 }
 
-/* ===== CONTAINER ===== */
+/* ===== CARD ===== */
 
 .container{
 width:90%;
@@ -91,13 +123,11 @@ max-width:420px;
 padding:40px 25px;
 border-radius:35px;
 text-align:center;
-
 background:rgba(255,255,255,0.05);
 backdrop-filter:blur(35px);
-
 box-shadow:
-0 0 60px rgba(0,180,255,.4),
-inset 0 0 40px rgba(0,150,255,.2);
+0 0 80px rgba(0,180,255,.5),
+inset 0 0 60px rgba(0,150,255,.25);
 }
 
 /* ===== LOGO ===== */
@@ -106,7 +136,7 @@ inset 0 0 40px rgba(0,150,255,.2);
 width:130px;
 border-radius:50%;
 margin-bottom:20px;
-box-shadow:0 0 60px #38b6ff;
+box-shadow:0 0 80px #38b6ff;
 animation:glow 3s infinite ease-in-out;
 }
 
@@ -125,11 +155,9 @@ border-radius:20px;
 text-decoration:none;
 color:white;
 font-weight:500;
-
 background:linear-gradient(90deg,#0ea5ff,#2563ff,#60d0ff);
 background-size:200%;
 transition:.35s;
-
 box-shadow:0 5px 30px rgba(0,180,255,.5);
 }
 
@@ -139,47 +167,11 @@ background-position:right;
 box-shadow:0 15px 60px rgba(0,200,255,1);
 }
 
-/* ===== TOPO ===== */
-
-.topbar{
-position:absolute;
-top:20px;
-right:20px;
-display:flex;
-gap:10px;
-}
-
-.btn{
-padding:8px 12px;
-border-radius:10px;
-background:#0ea5ff;
-cursor:pointer;
-font-size:12px;
-}
-
-/* ===== RIPPLE ÁGUA ===== */
-
-.ripple{
-position:absolute;
-border-radius:50%;
-background:rgba(125,211,255,.3);
-transform:scale(0);
-animation:ripple 0.8s linear;
-pointer-events:none;
-}
-
-@keyframes ripple{
-to{
-transform:scale(6);
-opacity:0;
-}
-}
-
-/* ===== MODO CLARO ===== */
-
-.light{
-background:#e0f2ff;
-color:#020617;
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-2;
 }
 
 </style>
@@ -187,10 +179,9 @@ color:#020617;
 
 <body>
 
-<div class="topbar">
-<div class="btn" onclick="toggleTheme()">tema</div>
-<div class="btn" onclick="copyLink()">copiar</div>
-</div>
+<div class="sun"></div>
+<div class="caustics"></div>
+<canvas id="ocean"></canvas>
 
 <div class="container">
 
@@ -202,18 +193,25 @@ color:#020617;
 🫧 O melhor servidor de Gifs e icons do Discord. Personalização de perfil, amizades, sorteios, eventos e muito mais 🩵
 </p>
 
-<a class="link" href="https://discord.gg/gleam">Entrar no Discord</a>
+<a class="link" href="https://discord.com/channels/1424587377514516525/1428085283043414159/1440940934912016536">
+Entrar no Discord
+</a>
+
 <a class="link" href="https://tiktok.com/@gleamgifs">TikTok</a>
 <a class="link" href="https://instagram.com/gleamgifss">Instagram</a>
 <a class="link" href="https://pinterest.com/gleamgifs">Pinterest</a>
 
 </div>
 
+<audio id="oceanSound" src="ocean.mp3" loop></audio>
+
 <script>
 
-/* ===== GERAR BOLHAS ===== */
+/* ===== SOM OCEANO ===== */
+document.body.onclick=()=>oceanSound.play()
 
-for(let i=0;i<35;i++){
+/* ===== BOLHAS ===== */
+for(let i=0;i<40;i++){
 let b=document.createElement("div")
 b.className="bubble"
 b.style.left=Math.random()*100+"vw"
@@ -221,48 +219,82 @@ b.style.animationDuration=6+Math.random()*6+"s"
 document.body.appendChild(b)
 }
 
-/* ===== PARTÍCULAS ===== */
-
-for(let i=0;i<60;i++){
-let p=document.createElement("div")
-p.className="particle"
-p.style.left=Math.random()*100+"vw"
-p.style.top=Math.random()*100+"vh"
-p.style.animationDuration=20+Math.random()*20+"s"
-document.body.appendChild(p)
+/* ===== GOTAS ===== */
+for(let i=0;i<20;i++){
+let d=document.createElement("div")
+d.className="drop"
+d.style.left=Math.random()*100+"vw"
+d.style.animationDuration=3+Math.random()*5+"s"
+document.body.appendChild(d)
 }
 
-/* ===== RIPPLE CLIQUE ===== */
+/* ===== PEIXES + ÁGUAS VIVAS ===== */
 
-document.addEventListener("click",e=>{
-let r=document.createElement("div")
-r.className="ripple"
-r.style.left=e.clientX+"px"
-r.style.top=e.clientY+"px"
-r.style.width=r.style.height="20px"
-document.body.appendChild(r)
-setTimeout(()=>r.remove(),800)
+const canvas=document.getElementById("ocean")
+const ctx=canvas.getContext("2d")
+
+canvas.width=innerWidth
+canvas.height=innerHeight
+
+let fish=[]
+let jelly=[]
+
+for(let i=0;i<12;i++){
+fish.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+s:2+Math.random()*2,
+v:0.5+Math.random()
+})
+}
+
+for(let i=0;i<5;i++){
+jelly.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:15+Math.random()*10,
+v:0.3+Math.random()*0.5
+})
+}
+
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+/* peixes */
+fish.forEach(f=>{
+ctx.beginPath()
+ctx.ellipse(f.x,f.y,10*f.s,4*f.s,0,0,Math.PI*2)
+ctx.fillStyle="rgba(125,211,255,0.8)"
+ctx.fill()
+
+f.x+=f.v
+if(f.x>canvas.width) f.x=-50
 })
 
-/* ===== TEMA ===== */
+/* águas vivas */
+jelly.forEach(j=>{
+ctx.beginPath()
+ctx.arc(j.x,j.y,j.r,Math.PI,0)
+ctx.fillStyle="rgba(125,211,255,0.3)"
+ctx.fill()
 
-function toggleTheme(){
-document.body.classList.toggle("light")
+for(let i=0;i<5;i++){
+ctx.beginPath()
+ctx.moveTo(j.x-10+i*5,j.y)
+ctx.lineTo(j.x-10+i*5,j.y+20+Math.sin(Date.now()/300+i)*10)
+ctx.strokeStyle="rgba(125,211,255,0.5)"
+ctx.stroke()
 }
 
-/* ===== COPIAR LINK ===== */
-
-function copyLink(){
-navigator.clipboard.writeText(location.href)
-alert("link copiado")
-}
-
-/* ===== MOVIMENTO 3D CELULAR ===== */
-
-window.addEventListener("deviceorientation",e=>{
-document.querySelector(".container").style.transform=
-`rotateY(${e.gamma/8}deg) rotateX(${e.beta/8}deg)`
+j.y+=j.v
+if(j.y>canvas.height+40) j.y=-40
 })
+
+requestAnimationFrame(draw)
+}
+
+draw()
 
 </script>
 
